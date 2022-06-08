@@ -131,7 +131,7 @@ You can change the `genesis.json` file by altering `config/genesis.json`. To loa
 
 ## Accounts
 
-localbostrom is pre-configured with one validator and 10 accounts with LUNA balances.
+localbostrom is pre-configured with one validator and 10 accounts with boot balances.
 
 | Account   | Address                                                                                                  | Mnemonic                                                                                                                                                                   |
 | --------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
