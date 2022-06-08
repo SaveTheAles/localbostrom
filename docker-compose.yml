@@ -1,60 +1,27 @@
 version: "3"
 
 services:
-  terrad:
-    image: terramoney/localterra-core:2.0.0
+  cyber:
+    image: cyberd/cyber:bostrom-localnet-1
+    container_name: localbostrom
     #pull_policy: always
     volumes:
-      - ./config:/root/.terra/config
+      - ./bostrom_config:/root/.cyber/config
+      - ./data:/root/.cyber/data
     networks:
-      - terra
+      cyber-net:
+        ipv4_address: 172.28.1.2
     ports:
       - "26657:26657"
       - "1317:1317"
       - "9090:9090"
       - "9091:9091"
-    command: terrad start
-  postgres:
-    image: postgres:13
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - terra
-    environment:
-      POSTGRES_USER: dev
-      POSTGRES_PASSWORD: dev
-  # redis:
-  #   image: redis:latest
-  #   networks:
-  #     - terra
-  #   ports:
-  #     - "6379:6379"
-  fcd-collector:
-    image: terramoney/fcd:2.0.0
-    depends_on:
-      - terrad
-      - postgres
-    volumes:
-      - ./logs:/app/logs
-    networks:
-      - terra
-    env_file: fcd.env
-    command: collector
-    restart: unless-stopped
-  fcd-api:
-    image: terramoney/fcd:2.0.0
-    depends_on:
-      - terrad
-      - postgres
-    volumes:
-      - ./logs:/app/logs
-    networks:
-      - terra
-    ports:
-      - 3060:3060
-    env_file: fcd.env
-    command: start
+    command: cyber start --compute-gpu=false
 
 networks:
-  terra:
+  cyber-net:
     driver: bridge
+    ipam:
+        driver: default
+        config:
+            - subnet: 172.28.1.0/24
